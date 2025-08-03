@@ -150,7 +150,15 @@
     <!-- Firebase SDK -->
     <script type="module">
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "AIza...", authDomain: "...", projectId: "..." };
+        const firebaseConfig = {
+  apiKey: "AIzaSyD5YOL4o4cFrZNMypf0kiBqhxnBYzg3mFo",
+  authDomain: "wall-of-words.firebaseapp.com",
+  projectId: "wall-of-words",
+  storageBucket: "wall-of-words.firebasestorage.app",
+  messagingSenderId: "617260153734",
+  appId: "1:617260153734:web:68ba6b9196c6198452ca07",
+  measurementId: "G-B2D19YBK7N"
+};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : undefined;
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
