@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall of Words - An Ethereal Diary</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Dancing Script for handwritten feel, Poppins for UI text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #e8b7d4, #d8a7c7, #a7d8c7, #87ceeb);
+            background-size: 400% 400%;
+            animation: gradient-animation 25s ease infinite;
+            color: #fff;
+            overflow-x: hidden; /* Prevent horizontal scroll from floating elements */
+        }
+
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .text-with-outline {
+            text-shadow: 
+                -1px -1px 1px rgba(0,0,0,0.4),  
+                 1px -1px 1px rgba(0,0,0,0.4),
+                -1px  1px 1px rgba(0,0,0,0.4),
+                 1px  1px 1px rgba(0,0,0,0.4);
+        }
+        
+        h1.font-handwriting {
+             text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 
+                         -1px -1px 1px rgba(0,0,0,0.4),  
+                          1px -1px 1px rgba(0,0,0,0.4),
+                         -1px  1px 1px rgba(0,0,0,0.4),
+                          1px  1px 1px rgba(0,0,0,0.4);
+        }
+
+        .glass-ui {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Floating Butterflies */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.5;
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        /* Assign different animation delays and positions */
+        .butterfly-1 { top: 15%; left: 10%; width: 50px; animation-delay: 0s; }
+        .butterfly-2 { top: 70%; left: 20%; width: 40px; animation-delay: 2s; animation-duration: 8s; }
+        .butterfly-3 { top: 20%; right: 15%; width: 60px; animation-delay: 4s; }
+        .butterfly-4 { top: 80%; right: 10%; width: 45px; animation-delay: 1s; animation-duration: 7s; }
+        .butterfly-5 { top: 50%; left: 5%; width: 35px; animation-delay: 3s; }
+        .butterfly-6 { top: 40%; right: 5%; width: 55px; animation-delay: 5s; animation-duration: 9s; }
+        
+        /* Animation for new paragraphs */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .new-paragraph {
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+</head>
+<body class="w-full min-h-screen">
+
+    <!-- Floating Butterflies Background -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden z-0">
+        <!-- SVG Butterfly -->
+        <svg class="floating-element butterfly-1" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 40C20 10 10 50 50 70C90 50 80 10 50 40Z" fill="rgba(255,255,255,0.7)"/></svg>
+        <svg class="floating-element butterfly-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 40C20 10 10 50 50 70C90 50 80 10 50 40Z" fill="rgba(255,255,255,0.6)"/></svg>
+        <svg class="floating-element butterfly-3" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 40C20 10 10 50 50 70C90 50 80 10 50 40Z" fill="rgba(255,255,255,0.8)"/></svg>
+        <svg class="floating-element butterfly-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 40C20 10 10 50 50 70C90 50 80 10 50 40Z" fill="rgba(255,255,255,0.5)"/></svg>
+        <svg class="floating-element butterfly-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 40C20 10 10 50 50 70C90 50 80 10 50 40Z" fill="rgba(255,255,255,0.75)"/></svg>
+        <svg class="floating-element butterfly-6" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 40C20 10 10 50 50 70C90 50 80 10 50 40Z" fill="rgba(255,255,255,0.65)"/></svg>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative container mx-auto p-4 md:p-8 max-w-2xl z-10">
+
+        <!-- Header Section -->
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="font-handwriting text-5xl md:text-7xl font-bold text-white mb-2">Wall of Words</h1>
+            <p class="text-md md:text-lg text-white/80 text-with-outline">Set your thoughts free, let them drift into eternity.</p>
+        </header>
+
+        <!-- Submission Form -->
+        <div class="glass-ui p-6 rounded-2xl mb-8">
+            <h2 class="font-handwriting text-3xl font-semibold mb-4 text-white text-with-outline">Eternalize a Thought</h2>
+            <textarea id="paragraphInput" class="font-handwriting text-2xl w-full p-4 bg-transparent border-0 rounded-lg focus:ring-2 focus:ring-white/50 transition duration-200 text-white text-with-outline" rows="5" placeholder="Write here..."></textarea>
+            
+            <div class="mt-4">
+                <label for="bgImageInput" class="cursor-pointer inline-flex items-center px-4 py-2 border border-white/30 rounded-lg text-white/80 hover:bg-white/10 transition">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path></svg>
+                    Add Background (Optional)
+                </label>
+                <input type="file" id="bgImageInput" class="hidden" accept="image/*">
+                <span id="fileName" class="ml-4 text-sm text-white/70"></span>
+            </div>
+
+            <!-- Caution Message -->
+            <p class="text-xs text-white/70 italic text-center my-4 text-with-outline">
+                Heads up: Once submitted, your words are eternalized on this public wall and cannot be edited or removed.
+            </p>
+
+            <button id="submitButton" class="group w-full bg-white/20 text-white font-semibold py-3 px-6 rounded-lg hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent focus:ring-white transition-all duration-300 flex items-center justify-center space-x-2">
+                <span id="submitButtonText">Submit & Eternalize</span>
+                <!-- Wax Seal Icon -->
+                <svg class="w-6 h-6 opacity-80 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+            </button>
+            <div id="messageBox" class="mt-4 text-center font-semibold"></div>
+        </div>
+
+        <!-- Display Area for Paragraphs -->
+        <div id="paragraphsContainer" class="space-y-6">
+            <div id="loadingIndicator" class="text-center text-white/70"><p>Loading eternal thoughts...</p></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "AIza...", authDomain: "...", projectId: "..." };
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : undefined;
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+        let db, auth, storage;
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            storage = getStorage(app);
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
+            document.getElementById('loadingIndicator').innerText = 'Error connecting to the ethereal plane.';
+        }
+
+        const paragraphInput = document.getElementById('paragraphInput');
+        const submitButton = document.getElementById('submitButton');
+        const submitButtonText = document.getElementById('submitButtonText');
+        const paragraphsContainer = document.getElementById('paragraphsContainer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const messageBox = document.getElementById('messageBox');
+        const bgImageInput = document.getElementById('bgImageInput');
+        const fileNameSpan = document.getElementById('fileName');
+
+        // --- Event Listeners ---
+        bgImageInput.addEventListener('change', () => {
+            fileNameSpan.textContent = bgImageInput.files.length > 0 ? bgImageInput.files[0].name : '';
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                listenForParagraphs();
+            } else {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    showMessage("Could not connect to the service.", "red");
+                }
+            }
+        });
+
+        function listenForParagraphs() {
+            const paragraphsCollectionPath = `artifacts/${appId}/public/data/paragraphs`;
+            const q = query(collection(db, paragraphsCollectionPath));
+
+            onSnapshot(q, (querySnapshot) => {
+                loadingIndicator.style.display = 'none';
+                paragraphsContainer.innerHTML = '';
+                const paragraphs = [];
+                querySnapshot.forEach((doc) => paragraphs.push({ id: doc.id, ...doc.data() }));
+                paragraphs.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+                if (paragraphs.length === 0) {
+                    paragraphsContainer.innerHTML = '<p class="text-center text-white/70 italic text-with-outline">The air is quiet... be the first to leave a whisper.</p>';
+                } else {
+                    paragraphs.forEach(para => {
+                        const paragraphElement = createParagraphElement(para);
+                        paragraphsContainer.appendChild(paragraphElement);
+                    });
+                }
+            }, (error) => {
+                loadingIndicator.innerText = 'Failed to load thoughts.';
+                showMessage("Could not fetch data from the server.", "red");
+            });
+        }
+
+        function createParagraphElement(paraData) {
+            const div = document.createElement('div');
+            div.className = 'glass-ui p-5 rounded-xl new-paragraph relative overflow-hidden';
+
+            if (paraData.imageUrl) {
+                const bgImage = document.createElement('div');
+                bgImage.className = 'absolute inset-0 bg-cover bg-center';
+                bgImage.style.backgroundImage = `url('${paraData.imageUrl}')`;
+                bgImage.style.filter = 'blur(4px)';
+                bgImage.style.transform = 'scale(1.1)';
+                div.appendChild(bgImage);
+
+                const overlay = document.createElement('div');
+                overlay.className = 'absolute inset-0 bg-black/40';
+                div.appendChild(overlay);
+            }
+            
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'relative';
+
+            const p = document.createElement('p');
+            p.textContent = paraData.text;
+            p.className = 'font-handwriting text-2xl text-white leading-relaxed text-with-outline';
+
+            const footer = document.createElement('div');
+            footer.className = 'text-right text-xs text-white/60 mt-3 text-with-outline';
+            const date = paraData.createdAt ? paraData.createdAt.toDate().toLocaleString() : 'Just now';
+            footer.textContent = `Eternalized on ${date}`;
+            
+            contentWrapper.appendChild(p);
+            contentWrapper.appendChild(footer);
+            div.appendChild(contentWrapper);
+            
+            return div;
+        }
+
+        async function submitParagraph() {
+            const text = paragraphInput.value.trim();
+            const file = bgImageInput.files[0];
+
+            if (text === "") {
+                showMessage("Please write a thought before setting it free.", "orange");
+                return;
+            }
+            
+            if (!auth.currentUser) {
+                showMessage("You are not connected. Please wait and try again.", "red");
+                return;
+            }
+            const userId = auth.currentUser.uid;
+
+            submitButton.disabled = true;
+            submitButtonText.textContent = 'Eternalizing...';
+
+            let imageUrl = null;
+
+            try {
+                if (file) {
+                    submitButtonText.textContent = 'Uploading image...';
+                    const filePath = `artifacts/${appId}/public/images/${userId}/${Date.now()}-${file.name}`;
+                    const storageRef = ref(storage, filePath);
+                    const snapshot = await uploadBytes(storageRef, file);
+                    imageUrl = await getDownloadURL(snapshot.ref);
+                    submitButtonText.textContent = 'Saving thought...';
+                }
+
+                const paragraphsCollectionPath = `artifacts/${appId}/public/data/paragraphs`;
+                const docData = { 
+                    text, 
+                    createdAt: serverTimestamp() 
+                };
+                if (imageUrl) {
+                    docData.imageUrl = imageUrl;
+                }
+
+                await addDoc(collection(db, paragraphsCollectionPath), docData);
+                
+                paragraphInput.value = '';
+                bgImageInput.value = '';
+                fileNameSpan.textContent = '';
+                showMessage("Your thought is now part of eternity.", "green");
+
+            } catch (error) {
+                console.error("Submission error:", error);
+                showMessage("Your thought could not be saved. Please try again.", "red");
+            } finally {
+                submitButton.disabled = false;
+                submitButtonText.textContent = 'Submit & Eternalize';
+            }
+        }
+        
+        function showMessage(text, color) {
+            const colorClasses = {
+                green: 'text-green-300',
+                red: 'text-red-300',
+                orange: 'text-amber-300'
+            };
+            messageBox.textContent = text;
+            messageBox.className = `mt-4 text-center font-semibold ${colorClasses[color] || 'text-white'}`;
+            setTimeout(() => { messageBox.textContent = ''; }, 4000);
+        }
+
+        submitButton.addEventListener('click', submitParagraph);
+    </script>
+</body>
+</html>
