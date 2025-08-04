@@ -346,17 +346,12 @@
             }
         }
 
-        /**
-         * FIX: New function to compress and resize an image file before upload.
-         * @param {File} file - The original image file.
-         * @returns {Promise<Blob>} A promise that resolves with the compressed image as a Blob.
-         */
         function compressImage(file) {
             return new Promise((resolve, reject) => {
-                const MAX_WIDTH = 1024; // Max width for the resized image
-                const MAX_HEIGHT = 1024; // Max height for the resized image
+                const MAX_WIDTH = 1024;
+                const MAX_HEIGHT = 1024;
                 const MIME_TYPE = "image/jpeg";
-                const QUALITY = 0.7; // Compression quality
+                const QUALITY = 0.7;
 
                 const reader = new FileReader();
                 reader.onload = (event) => {
@@ -433,7 +428,8 @@
                 }
 
                 if (fileToUpload) {
-                    const filePath = `artifacts/${appId}/public/images/${userId}/${Date.now()}-${file.name || 'image.jpg'}`;
+                    // FIX: Corrected the storage path by removing the userId
+                    const filePath = `artifacts/${appId}/public/images/${Date.now()}-${file.name || 'image.jpg'}`;
                     const storageRef = ref(storage, filePath);
                     const snapshot = await uploadBytes(storageRef, fileToUpload);
                     imageUrl = await getDownloadURL(snapshot.ref);
