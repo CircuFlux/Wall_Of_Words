@@ -74,6 +74,18 @@
         .new-paragraph {
             animation: fadeIn 0.8s ease-out;
         }
+
+        /* Styles for View Toggle */
+        .view-toggle button.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Styles for List View */
+        #paragraphsContainer.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
     </style>
 </head>
 <body class="w-full min-h-screen">
@@ -130,8 +142,18 @@
             <div id="messageBox" class="mt-4 text-center font-semibold"></div>
         </div>
 
+        <!-- View Toggle Controls -->
+        <div class="flex justify-end mb-4 view-toggle">
+            <button id="gridViewBtn" title="Grid View" class="p-2 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </button>
+            <button id="listViewBtn" title="List View" class="p-2 rounded-lg transition-colors duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
         <!-- Display Area for Paragraphs -->
-        <div id="paragraphsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="paragraphsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
             <div id="loadingIndicator" class="text-center text-white/70 md:col-span-2 lg:col-span-3"><p>Loading eternal thoughts...</p></div>
         </div>
     </div>
@@ -182,8 +204,25 @@
         const fileNameSpan = document.getElementById('fileName');
         const imageUploadLabel = document.getElementById('imageUploadLabel');
         const fontSelector = document.getElementById('fontSelector');
+        const gridViewBtn = document.getElementById('gridViewBtn');
+        const listViewBtn = document.getElementById('listViewBtn');
 
-        // --- Local Storage for Likes ---
+        // --- Profanity Filter ---
+        const profanityList = ["anal", "anus", "arse", "ass", "ballsack", "balls", "bastard", "bitch", "biatch", "bloody", "blowjob", "blow job", "bollock", "bollok", "boner", "boob", "bugger", "bum", "butt", "buttplug", "clitoris", "cock", "coon", "crap", "cunt", "damn", "dick", "dildo", "dyke", "fag", "feck", "fellate", "fellatio", "felching", "fuck", "f u c k", "fudgepacker", "fudge packer", "flange", "Goddamn", "God damn", "hell", "homo", "jerk", "jizz", "knobend", "knob end", "labia", "lmao", "lmfao", "muff", "nigger", "nigga", "omg", "penis", "piss", "poop", "prick", "pube", "pussy", "queer", "scrotum", "sex", "shit", "s hit", "sh1t", "slut", "smegma", "spunk", "tit", "tosser", "turd", "twat", "vagina", "wank", "whore", "wtf"];
+
+        function filterProfanity(text) {
+            const words = text.split(' ');
+            const cleanWords = words.map(word => {
+                const checkWord = word.toLowerCase().replace(/[^\w]/g, '');
+                if (profanityList.includes(checkWord)) {
+                    return '*'.repeat(word.length);
+                }
+                return word;
+            });
+            return cleanWords.join(' ');
+        }
+
+        // --- Local Storage for Likes and Layout ---
         function getLikedPosts() {
             return JSON.parse(localStorage.getItem('likedPosts') || '[]');
         }
@@ -195,6 +234,21 @@
                 localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
             }
         }
+        
+        function setLayout(layout) {
+            if (layout === 'list') {
+                paragraphsContainer.classList.add('list-view');
+                paragraphsContainer.classList.remove('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+            } else { // Default to grid
+                paragraphsContainer.classList.remove('list-view');
+                paragraphsContainer.classList.add('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+            }
+            localStorage.setItem('layoutPreference', layout);
+        }
 
         // --- Event Listeners ---
         bgImageInput.addEventListener('change', () => {
@@ -204,6 +258,9 @@
         fontSelector.addEventListener('change', (e) => {
             paragraphInput.className = `text-2xl w-full p-4 bg-transparent border-0 rounded-lg focus:ring-2 focus:ring-white/50 transition duration-200 text-white text-with-outline ${e.target.value}`;
         });
+        
+        gridViewBtn.addEventListener('click', () => setLayout('grid'));
+        listViewBtn.addEventListener('click', () => setLayout('list'));
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -241,7 +298,10 @@
                 paragraphs.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
                 if (paragraphs.length === 0) {
-                    paragraphsContainer.innerHTML = '<p class="text-center text-white/70 italic text-with-outline md:col-span-2 lg:col-span-3">The air is quiet... be the first to leave a whisper.</p>';
+                    const emptyMessage = document.createElement('p');
+                    emptyMessage.className = 'text-center text-white/70 italic text-with-outline md:col-span-2 lg:col-span-3';
+                    emptyMessage.textContent = 'The air is quiet... be the first to leave a whisper.';
+                    paragraphsContainer.appendChild(emptyMessage);
                 } else {
                     paragraphs.forEach(para => {
                         const paragraphElement = createParagraphElement(para);
@@ -399,7 +459,8 @@
         }
 
         async function submitParagraph() {
-            const text = paragraphInput.value.trim();
+            const originalText = paragraphInput.value.trim();
+            const text = filterProfanity(originalText);
             const file = bgImageInput.files[0];
             const fontClass = fontSelector.value;
 
@@ -412,7 +473,6 @@
                 showMessage("You are not connected. Please wait and try again.", "red");
                 return;
             }
-            const userId = auth.currentUser.uid;
 
             submitButton.disabled = true;
             submitButtonText.textContent = 'Eternalizing...';
@@ -428,7 +488,6 @@
                 }
 
                 if (fileToUpload) {
-                    // FIX: Corrected the storage path by removing the userId
                     const filePath = `artifacts/${appId}/public/images/${Date.now()}-${file.name || 'image.jpg'}`;
                     const storageRef = ref(storage, filePath);
                     const snapshot = await uploadBytes(storageRef, fileToUpload);
@@ -474,6 +533,12 @@
             messageBox.className = `mt-4 text-center font-semibold ${colorClasses[color] || 'text-white'}`;
             setTimeout(() => { messageBox.textContent = ''; }, 4000);
         }
+
+        // Initialize layout on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLayout = localStorage.getItem('layoutPreference') || 'grid';
+            setLayout(savedLayout);
+        });
 
         submitButton.addEventListener('click', submitParagraph);
     </script>
